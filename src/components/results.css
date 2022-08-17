@@ -23,3 +23,10 @@ td{
     margin: 25px;
     float: left;
 }
+
+.no-results{
+    padding: 70px;
+    color: lightgray;
+    margin-top: 250px;
+    font-size: xx-large;
+}

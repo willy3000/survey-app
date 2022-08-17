@@ -28,42 +28,50 @@ export default function Results() {
     let count = 0
     let count2 = 0
 
-  return (
-    <Fragment>
-        <Link to="/">
-        <Button className='return' variant='outlined'> Home </Button>
-        </Link>
-<div className='results-container'>
-    <h3>Survey Results</h3>
-    <table>
-        <tbody>
-        <tr>
-        <th>Survey id</th>
-        {overall[0].map((record) => 
-            <th>{record.id}</th>
-            )}
-        </tr>
 
-
-        {overall.map((list) =>
+if(overall.length>0){
+    return (
+        <Fragment>
+            <Link to="/">
+            <Button className='return' variant='outlined'> Home </Button>
+            </Link>
+    <div className='results-container'>
+        <h3>Survey Results</h3>
+        <table>
+            <tbody>
             <tr>
-            <td>{count+=1}</td>
-            {list.map((record) => 
-            <td>{record.answer}</td>
-            )}
+            <th>Survey id</th>
+            {overall[0].map((record) => 
+                <th>{record.id}</th>
+                )}
             </tr>
-        )}
-
-
-
-        </tbody>
-
-    </table>
-
     
-</div>
+    
+            {overall.map((list) =>
+                <tr>
+                <td>{count+=1}</td>
+                {list.map((record) => 
+                <td>{record.answer}</td>
+                )}
+                </tr>
+            )}
+    
+    
+    
+            </tbody>
+    
+        </table>
+    
+        
+    </div>
+    
+        </Fragment>
+    
+      )
+}else{
+    return(
+        <div className='no-results'>No results yet</div>
+    )
+} 
 
-    </Fragment>
-
-  )
 }
