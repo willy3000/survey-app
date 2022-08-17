@@ -34,6 +34,7 @@ export default function Survey() {
     }
 
     const options = questions.questions.find(x => x.id===question_id).options
+    const answer_type = questions.questions.find(x => x.id===question_id).answer_type
 
 
     let [current_option, changeOption] = useState()
@@ -96,7 +97,7 @@ export default function Survey() {
             </div>}
 
             {!options.length>0 && <div>
-                <TextField inputRef={answer} variant='outlined' label='answer' onChange={(event) => {enableBtn(event)}}></TextField>
+                <TextField type={answer_type==="FLOAT" ? "number" : "text"} inputRef={answer} variant='outlined' label='answer' onChange={(event) => {enableBtn(event)}}></TextField>
             </div>}
 
             </CardContent>
