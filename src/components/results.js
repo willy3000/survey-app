@@ -12,13 +12,10 @@ import {Link} from 'react-router-dom'
 import { useRef } from 'react'
 import './results.css'
 import { Fragment } from 'react'
-import {reInitialize} from '../slices/surveySlice'
 
 
 
 export default function Results() {
-
-    const dispatch = useDispatch()
 
     const questions = useSelector((state) => state.survey.value)
     const answers = useSelector((state) => state.survey.results)
@@ -34,7 +31,7 @@ export default function Results() {
   return (
     <Fragment>
         <Link to="/">
-        <Button onClick={() => dispatch(reInitialize())} className='return' variant='outlined'> Home </Button>
+        <Button className='return' variant='outlined'> Home </Button>
         </Link>
 <div className='results-container'>
     <h3>Survey Results</h3>
@@ -42,18 +39,22 @@ export default function Results() {
         <tbody>
         <tr>
         <th>Survey id</th>
-        {answers.map((answer) =>
-        <th key={count+=1}>{answer.id}</th>
+        {overall[0].map((record) => 
+            <th>{record.id}</th>
+            )}
+        </tr>
+
+
+        {overall.map((list) =>
+            <tr>
+            <td>{count+=1}</td>
+            {list.map((record) => 
+            <td>{record.answer}</td>
+            )}
+            </tr>
         )}
 
-        </tr>
-            {overall.map((list) => {
-            <tr key={count+=1}>
-                {list.map((record) => 
-                <td key={count2+=1}> {record.answer}</td>
-                )}
-        </tr>
-    })}
+
 
         </tbody>
 

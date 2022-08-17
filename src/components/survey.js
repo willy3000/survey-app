@@ -5,7 +5,7 @@ import {CardHeader} from '@mui/material'
 import './survey.css'
 import { blue } from '@mui/material/colors'
 import {Button,TextField} from '@mui/material'
-import {nextQuestion} from '../slices/surveySlice'
+import {nextQuestion, reInitialize} from '../slices/surveySlice'
 import { useDispatch } from 'react-redux/es/hooks/useDispatch'
 import { useState } from 'react'
 import {Link} from 'react-router-dom'
@@ -54,21 +54,17 @@ export default function Survey() {
 
     const nextSurvey = (val) => {
         answerState(false)
-        if(val === 1){
-            surveyState(true)
-
-        }
         try{
             dispatch(nextQuestion({id:question_id, answer: answer.current.value}))
-            const newList = overallList
-            newList.push({id:question_id, answer: answer.current.value})
-            addtoList(newList)
+
         }
         catch{
             dispatch(nextQuestion({id:question_id, answer: gender.current.textContent}))
-            const newList = overallList
-            newList.push({id:question_id, answer: answer.current.value})
-            addtoList(newList)
+        }
+
+        if(val === 1){
+            surveyState(true)
+            dispatch(reInitialize())
         }
     }
 
