@@ -11,14 +11,13 @@ import { useState } from 'react'
 import {Link} from 'react-router-dom'
 import { useRef } from 'react'
 import { Fragment } from 'react'
-import {reInitialize} from '../slices/surveySlice'
 
 
-export default function Survey() {
-    
+export default function Survey() {    
 
     const answer = useRef()
     const gender = useRef()
+    const holder = useRef()
 
     let textinputType = true
 
@@ -28,8 +27,6 @@ export default function Survey() {
     const question_id_no = useSelector((state) => state.survey.current_question)
     const questions = useSelector((state) => state.survey.value)
     let question_id
-    console.log(question_id_no)
-    console.log(questions)
     try{
         question_id = questions.questions[question_id_no].id
     }catch{
@@ -43,6 +40,7 @@ export default function Survey() {
 
     const [answered, answerState] = useState(false)
     const [surveyTaken, surveyState] = useState(false)
+    const [overallList, addtoList] = useState([])
 
 
     const enableBtn = (event) => {
@@ -58,13 +56,19 @@ export default function Survey() {
         answerState(false)
         if(val === 1){
             surveyState(true)
-            console.log("survey state is ",surveyTaken)
+
         }
         try{
             dispatch(nextQuestion({id:question_id, answer: answer.current.value}))
+            const newList = overallList
+            newList.push({id:question_id, answer: answer.current.value})
+            addtoList(newList)
         }
         catch{
             dispatch(nextQuestion({id:question_id, answer: gender.current.textContent}))
+            const newList = overallList
+            newList.push({id:question_id, answer: answer.current.value})
+            addtoList(newList)
         }
     }
 
@@ -72,14 +76,12 @@ export default function Survey() {
         answerState(true)
         changeOption(option_key)
         textinputType = false
-        console.log(gender.current.textContent)
-
     }
 
 
   return (
     <Fragment>
-    {!surveyTaken && <Card sx={{backgroundColor: blue[100]}} className="question-container">
+    <Card sx={{backgroundColor: blue[100]}} className="question-container">
             <CardHeader
             title="Question"
             subheader ={question_id_no+1}
@@ -91,7 +93,7 @@ export default function Survey() {
 
             {options.length>0 && <div>
                 {options.map((option) => 
-                    <div ref={gender} className={option.display_text===current_option ? 'option selected' : "option"} key={option.display_text} onClick={() => selectOption(option.display_text, option.value)}>
+                    <div ref={option.display_text===current_option ? gender: holder} className={option.display_text===current_option ? 'option selected' : "option"} key={option.display_text} onClick={() => selectOption(option.display_text, option.value)}>
                         {option.value}
                     </div>
                 )}
@@ -111,11 +113,7 @@ export default function Survey() {
             </CardActions>
 
 
-        </Card>}
-
-        {surveyTaken && <div>
-            survey already taken
-        </div>}
+        </Card>
     </Fragment>
 
   )

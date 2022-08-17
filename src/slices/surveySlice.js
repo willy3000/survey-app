@@ -3,7 +3,7 @@ import { createSlice } from "@reduxjs/toolkit";
 
 export const SurveySlice = createSlice({
     name: "survey",
-    initialState: {value: [], current_question: 0, results: []},
+    initialState: {value: [], current_question: 0, results: [], overallResults : []},
     reducers: {
         loadData : (state, action) => {
             state.value = action.payload
@@ -16,11 +16,12 @@ export const SurveySlice = createSlice({
             const newList = [...state.results]
             newList.push(action.payload)
             state.results = newList
-            console.log(state.results)
         },
 
         reInitialize: (state, action) => {
-            state.value = []
+            const newList = state.overallResults
+            newList.push(state.results)
+            state.overallResults = newList
             state.current_question = 0
             state.results = []
         }

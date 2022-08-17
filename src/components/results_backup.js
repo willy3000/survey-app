@@ -29,7 +29,6 @@ export default function Results() {
 
 
     let count = 0
-    let count2 = 0
 
   return (
     <Fragment>
@@ -46,15 +45,13 @@ export default function Results() {
         <th key={count+=1}>{answer.id}</th>
         )}
 
-        </tr>
-            {overall.map((list) => {
-            <tr key={count+=1}>
-                {list.map((record) => 
-                <td key={count2+=1}> {record.answer}</td>
-                )}
-        </tr>
-    })}
-
+    </tr>
+    <tr>
+        <td>{questions.id}</td>
+        {answers.map((answer) => 
+        <td key={count+=1}>{answer.answer}</td>
+        )}
+    </tr>
         </tbody>
 
     </table>
